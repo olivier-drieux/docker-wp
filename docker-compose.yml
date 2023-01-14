@@ -1,0 +1,25 @@
+version: '3.1'
+
+services:
+  wordpress:
+    build:
+      context: ./config
+      args:
+        SSH_USER: $SSH_USER
+        SSH_PASSWORD: $SSH_PASSWORD
+        ROOT_PASSWORD: $ROOT_PASSWORD
+        WORDPRESS_VERSION: $WORDPRESS_VERSION
+        WORDPRESS_IMAGE: "wordpress:$WORDPRESS_VERSION-php$PHP_VERSION-apache"
+        PHP_VERSION: $PHP_VERSION
+    container_name: wordpress-container
+    environment:
+      WORDPRESS_DB_HOST: $WORDPRESS_DB_HOST
+      WORDPRESS_DB_USER: $WORDPRESS_DB_USER
+      WORDPRESS_DB_PASSWORD: $WORDPRESS_DB_PASSWORD
+      WORDPRESS_DB_NAME: $WORDPRESS_DB_NAME
+    ports:
+      - $HTTP_PORT:80
+      - $SSH_PORT:22
+    restart: unless-stopped
+networks:
+  wordpress:
